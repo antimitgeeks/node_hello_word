@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - npm install 
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 681971326299.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t hello-world-nodejs .
+      - docker tag hello-world-nodejs:latest 681971326299.dkr.ecr.us-east-1.amazonaws.com/hello-world-nodejs:latest
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push 681971326299.dkr.ecr.us-east-1.amazonaws.com/hello-world-nodejs:latest
+artifacts:
+  files:
+    - '**/*'
