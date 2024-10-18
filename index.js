@@ -8,7 +8,7 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
 
     // Send the response body "Hello World"
-    res.end({ key: "test", value: 24 });
+    res.end('testing with load balancer');
 }).listen(process.env.PORT, () => {
     // Log message to console
     console.log(`Server running at ${process.env.PORT}`);
